@@ -1,10 +1,10 @@
-package net.adamsmolnik.digest.setup;
+package net.adamsmolnik.setup.digest;
 
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
-import net.adamsmolnik.digest.boundary.DigestService;
+import net.adamsmolnik.boundary.digest.DigestService;
 
 /**
  * @author ASmolnik

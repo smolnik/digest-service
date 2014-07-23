@@ -1,4 +1,4 @@
-package net.adamsmolnik.digest.control;
+package net.adamsmolnik.control.digest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,7 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
-import net.adamsmolnik.entity.FileEntity;
+import net.adamsmolnik.entity.Entity;
+import net.adamsmolnik.entity.EntityReference;
 import net.adamsmolnik.exceptions.ServiceException;
 import net.adamsmolnik.provider.EntityProvider;
 import net.adamsmolnik.setup.ServiceNameResolver;
@@ -26,17 +27,17 @@ public class Digest {
 
     @Inject
     private ServiceNameResolver snr;
-    
+
     private int limitForDigest;
-    
+
     @PostConstruct
-    private void init(){
+    void init() {
         limitForDigest = Integer.valueOf(conf.getServiceValue(snr.getServiceName(), "limitForDigest"));
     }
 
-    public String digest(String algorithm, String objectKey) {
-        FileEntity fe = entityProvider.getFileEntity(objectKey);
-        try (InputStream is = fe.getInputStream()) {
+    public String doDigest(String algorithm, String objectKey) {
+        Entity entity = entityProvider.getEntity(new EntityReference(objectKey));
+        try (InputStream is = entity.getInputStream()) {
             MessageDigest md = MessageDigest.getInstance(algorithm);
             return DatatypeConverter.printHexBinary(md.digest(getBytes(is, limitForDigest)));
         } catch (NoSuchAlgorithmException | IOException e) {

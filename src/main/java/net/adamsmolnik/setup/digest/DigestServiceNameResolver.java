@@ -1,4 +1,4 @@
-package net.adamsmolnik.digest.setup;
+package net.adamsmolnik.setup.digest;
 
 import javax.inject.Singleton;
 import net.adamsmolnik.setup.ServiceNameResolver;

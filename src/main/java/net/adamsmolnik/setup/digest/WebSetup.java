@@ -1,11 +1,11 @@
-package net.adamsmolnik.digest.setup;
+package net.adamsmolnik.setup.digest;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import net.adamsmolnik.digest.boundary.DigestActivityImpl;
-import net.adamsmolnik.digest.control.Digest;
+import net.adamsmolnik.boundary.digest.DigestActivityImpl;
+import net.adamsmolnik.control.digest.Digest;
 import net.adamsmolnik.setup.ActivityLauncher;
 
 /**
@@ -13,7 +13,7 @@ import net.adamsmolnik.setup.ActivityLauncher;
  *
  */
 @WebListener("digestActivitySetup")
-public class WebSetup implements ServletContextListener{
+public class WebSetup implements ServletContextListener {
 
     @Inject
     private Digest digest;
@@ -24,7 +24,7 @@ public class WebSetup implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         al.register(new DigestActivityImpl(digest));
-        //sal.launch();
+        al.launch();
     }
 
     @Override

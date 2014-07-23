@@ -1,4 +1,4 @@
-package net.adamsmolnik.digest.boundary;
+package net.adamsmolnik.boundary.digest;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -8,9 +8,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import net.adamsmolnik.digest.control.Digest;
-import net.adamsmolnik.digest.model.DigestRequest;
-import net.adamsmolnik.digest.model.DigestResponse;
+import net.adamsmolnik.control.digest.Digest;
+import net.adamsmolnik.model.digest.DigestRequest;
+import net.adamsmolnik.model.digest.DigestResponse;
 
 /**
  * @author ASmolnik
@@ -28,7 +28,7 @@ public class DigestService {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("digest")
     public String digest(@FormParam("algorithm") String algorithm, @FormParam("objectKey") String objectKey) {
-        return digest.digest(algorithm, objectKey);
+        return digest.doDigest(algorithm, objectKey);
     }
 
     @POST
@@ -36,7 +36,7 @@ public class DigestService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("digest")
     public DigestResponse digest(DigestRequest digestRequest) {
-        return new DigestResponse(digest.digest(digestRequest.algorithm, digestRequest.objectKey));
+        return new DigestResponse(digest.doDigest(digestRequest.algorithm, digestRequest.objectKey));
     }
 
 }
