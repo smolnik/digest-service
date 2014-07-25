@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 import net.adamsmolnik.entity.Entity;
@@ -16,7 +16,7 @@ import net.adamsmolnik.provider.EntityProvider;
 import net.adamsmolnik.setup.ServiceNameResolver;
 import net.adamsmolnik.util.Configuration;
 
-@RequestScoped
+@Dependent
 public class Digest {
 
     @Inject
