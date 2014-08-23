@@ -16,6 +16,10 @@ import net.adamsmolnik.provider.EntityProvider;
 import net.adamsmolnik.setup.ServiceNameResolver;
 import net.adamsmolnik.util.Configuration;
 
+/**
+ * @author ASmolnik
+ *
+ */
 @Dependent
 public class Digest {
 
@@ -36,16 +40,19 @@ public class Digest {
     }
 
     public String doDigest(String algorithm, String objectKey) {
-        Entity entity = entityProvider.getEntity(new EntityReference(objectKey));
+        EntityReference entityReference = new EntityReference(objectKey);
+        Entity entity = entityProvider.getEntity(entityReference);
         try (InputStream is = entity.getInputStream()) {
             MessageDigest md = MessageDigest.getInstance(algorithm);
-            return DatatypeConverter.printHexBinary(md.digest(getBytes(is, limitForDigest)));
+            String digest = DatatypeConverter.printHexBinary(md.digest(getBytes(is, limitForDigest)));
+            entityProvider.setNewMetadata(entityReference, "digest-" + algorithm, digest);
+            return digest;
         } catch (NoSuchAlgorithmException | IOException e) {
             throw new ServiceException(e);
         }
     }
 
-    private byte[] getBytes(InputStream is, int limit) {
+    private static byte[] getBytes(InputStream is, int limit) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         byte[] data = new byte[8192];
         int bytesRead = 0;
