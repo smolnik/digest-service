@@ -40,12 +40,10 @@ public class Digest {
     }
 
     public String doDigest(String algorithm, String objectKey) {
-        EntityReference entityReference = new EntityReference(objectKey);
-        Entity entity = entityProvider.getEntity(entityReference);
+        Entity entity = entityProvider.getEntity(new EntityReference(objectKey));
         try (InputStream is = entity.getInputStream()) {
             MessageDigest md = MessageDigest.getInstance(algorithm);
             String digest = DatatypeConverter.printHexBinary(md.digest(getBytes(is, limitForDigest)));
-            entityProvider.setNewMetadata(entityReference, "digest-" + algorithm, digest);
             return digest;
         } catch (NoSuchAlgorithmException | IOException e) {
             throw new ServiceException(e);
