@@ -13,7 +13,6 @@ import net.adamsmolnik.entity.Entity;
 import net.adamsmolnik.entity.EntityReference;
 import net.adamsmolnik.exceptions.ServiceException;
 import net.adamsmolnik.provider.EntityProvider;
-import net.adamsmolnik.setup.ServiceNameResolver;
 import net.adamsmolnik.util.Configuration;
 
 /**
@@ -29,14 +28,11 @@ public class Digest {
     @Inject
     private EntityProvider entityProvider;
 
-    @Inject
-    private ServiceNameResolver snr;
-
     private int limitForDigest;
 
     @PostConstruct
     void init() {
-        limitForDigest = Integer.valueOf(conf.getServiceValue(snr.getServiceName(), "limitForDigest"));
+        limitForDigest = Integer.valueOf(conf.getServiceValue("limitForDigest"));
     }
 
     public String doDigest(String algorithm, String objectKey) {
